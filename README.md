@@ -65,6 +65,39 @@ python -m wechat_article_mcp.server
 - 导出最近一篇文章到本地 HTML：`export_article(url_or_account_name="机器之心", output_path="exports/jiqizhixin_latest.html")`
 - 直接抓取单篇文章 HTML：`get_article_content(url="https://mp.weixin.qq.com/s/...")`
 
+实际对话示例：
+
+```text
+me: 登录一下 wechat article
+
+codex: 我先检查本地有没有可用的微信公众平台登录会话；如果没有，我会直接拉起二维码登录流程。
+
+codex: 本地已经有一个默认会话。我现在验证它是否还有效，避免让你重新扫码。
+
+codex: 已登录，当前可用会话有效。
+
+账号是 `*******`，登录态检查通过，当前仍可直接使用 `wechat article` 相关功能，不需要重新扫码。
+如果你要我继续，我可以直接帮你：
+
+- 获取某个公众号最新文章
+- 导出某篇文章为本地 HTML
+- 按时间范围查某个公众号的文章
+
+me: 搜索 机器之心 最近的一篇文章。然后返回到 当前目录下，命名以文章标题命名。
+
+codex: 我先取到“机器之心”的最新文章标题和链接，然后把它导出到当前目录，文件名用文章标题。
+
+codex: 已拿到最新文章。我现在按标题生成 HTML 文件到当前目录。
+
+codex: “机器之心”最近一篇文章是《特斯拉开源硬件，中国团队开源大脑！首个具身智能顶配全家桶上线》。
+
+已经导出到当前目录：
+[特斯拉开源硬件，中国团队开源大脑！首个具身智能顶配全家桶上线.html](D:/home/work/projects/PycharmProjects/wechat-article-mcp/特斯拉开源硬件，中国团队开源大脑！首个具身智能顶配全家桶上线.html)
+
+原文链接：
+`https://mp.weixin.qq.com/s/q9sI7NItYAiR5TsJA5BXZQ`
+```
+
 ## MCP 工具
 
 - `start_login_session`
@@ -158,6 +191,7 @@ WECHAT_ARTICLE_MCP_HOME=/path/to/data
 
 - 本项目依赖当前微信公众号后台的现有行为；如果微信后续修改登录或文章接口，功能可能失效。
 - “按时间搜索”不是微信接口直接支持的能力，而是在 MCP 层分页拉取后本地过滤实现的。
+- 当前实现默认采用保守限频策略，更适合低频人工触发，不适合高并发、长时间批量抓取。
 - 这个项目更适合本地单用户使用，不适合直接当作多人共享服务。
 - 本地保存的登录态是敏感数据，请保护好数据目录。
 
